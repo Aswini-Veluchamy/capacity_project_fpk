@@ -120,117 +120,117 @@ tbody {
 </aside><!-- End Sidebar-->
 
 <main id="main" class="main">
-<div class="pagetitle">
-    <h1>Update Request</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item">Request - Alpha4</li>
-            <li class="breadcrumb-item">Update Request</li>
-        </ol>
-    </nav>
-</div><!-- End Page Title -->
+    <div class="pagetitle">
+        <h1>Update Request</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item">Request - Alpha4</li>
+                <li class="breadcrumb-item">Update Request</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-<section class="section">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"></h5>
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="dc" class="form-label">DC</label>
-                                <input type="text" id="dc" class="form-control" name="dc" value="{{data.data_center}}" readonly />
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="dc" class="form-label">DC</label>
+                                    <input type="text" id="dc" class="form-control" name="dc" value="{{data.data_center}}" readonly />
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="project" class="form-label">Project</label>
+                                    <input type="text" id="project" class="form-control" name="project" value="{{data.project_name}}" readonly />
+                                </div>
                             </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="project" class="form-label">Project</label>
-                                <input type="text" id="project" class="form-control" name="project" value="{{data.project_name}}" readonly />
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="user_id" class="form-label">User ID</label>
+                                    <input type="text" class="form-control" id="user_id" name="user_id" value="{{data.user_name}}" readonly>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="std_stable1" class="form-label">Std Stable1 (TB)</label>
+                                    <input type="number" class="form-control" id="std_stable1" name="std_stable1" min="0" max="500" value="{{data.std_stable1}}"  required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="user_id" class="form-label">User ID</label>
-                                <input type="text" class="form-control" id="user_id" name="user_id" value="{{data.user_name}}" readonly>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="std_stable2" class="form-label">Std Stable2 (TB)</label>
+                                    <input type="number" class="form-control" id="std_stable2" name="std_stable2" min="0" max="500" value="{{data.std_stable2}}" required>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="std_arbor" class="form-label">Std Arbor (TB)</label>
+                                    <input type="number" class="form-control" id="std_arbor" name="std_arbor" min="0" max="500" value="{{data.std_arbor}}" required>
+                                </div>
                             </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="std_stable1" class="form-label">Std Stable1 (TB)</label>
-                                <input type="number" class="form-control" id="std_stable1" name="std_stable1" min="0" max="500" value="{{data.std_stable1}}"  required>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="stable1" class="form-label">Stable1 (TB)</label>
+                                    <input type="number" class="form-control" id="stable1" name="stable1" min="0" max="500" value="{{data.stable1}}" required>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="stable2" class="form-label">Stable2 (TB)</label>
+                                    <input type="number" class="form-control" id="stable2" name="stable2" min="0" max="500" value="{{data.stable2}}" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="std_stable2" class="form-label">Std Stable2 (TB)</label>
-                                <input type="number" class="form-control" id="std_stable2" name="std_stable2" min="0" max="500" value="{{data.std_stable2}}" required>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="arbor" class="form-label">Arbor (TB)</label>
+                                    <input type="number" class="form-control" id="arbor" name="arbor" min="0" max="500" value="{{data.arbor}}" required>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label for="gravit" class="form-label">Gravit (TB)</label>
+                                    <input type="number" class="form-control" id="gravit" name="gravit" min="0" max="500" value="{{data.gravit|floatformat}}" required>
+                                </div>
                             </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="std_arbor" class="form-label">Std Arbor (TB)</label>
-                                <input type="number" class="form-control" id="std_arbor" name="std_arbor" min="0" max="500" value="{{data.std_arbor}}" required>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
+                                    <label for="remarks" class="form-label">Remarks</label>
+                                    <textarea id="remarks" maxlength="256" rows="4" cols="50" class="form-control" name="remarks">{{data.remarks}}</textarea>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label">Milestones</label>
+                                    <table class="table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Milestone</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for i in mile_stone %}
+                                        <tr>
+                                            <td>{{i.name}}</td>
+                                            <td>{{i.date}}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="stable1" class="form-label">Stable1 (TB)</label>
-                                <input type="number" class="form-control" id="stable1" name="stable1" min="0" max="500" value="{{data.stable1}}" required>
+                            <br>
+                            <div class="text-center">
+                                <p>{{error}}</p>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <a href="#" class="btn btn-primary" role="button">Cancel</a>
                             </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="stable2" class="form-label">Stable2 (TB)</label>
-                                <input type="number" class="form-control" id="stable2" name="stable2" min="0" max="500" value="{{data.stable2}}" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="arbor" class="form-label">Arbor (TB)</label>
-                                <input type="number" class="form-control" id="arbor" name="arbor" min="0" max="500" value="{{data.arbor}}" required>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="gravit" class="form-label">Gravit (TB)</label>
-                                <input type="number" class="form-control" id="gravit" name="gravit" min="0" max="500" value="{{data.gravit|floatformat}}" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="remarks" class="form-label">Remarks</label>
-                                <textarea id="remarks" maxlength="256" rows="4" cols="50" class="form-control" name="remarks">{{data.remarks}}</textarea>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label class="form-label">Milestones</label>
-                                <table class="table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>Milestone</th>
-                                        <th>Date</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for i in mile_stone %}
-                                    <tr>
-                                        <td>{{i.name}}</td>
-                                        <td>{{i.date}}</td>
-                                        {% endfor %}
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="text-center">
-                            <p>{{error}}</p>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <a href="#" class="btn btn-primary" role="button">Cancel</a>
-                        </div>
-                    </form>
+                        </form>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </main>
 {% if messages %}
-         <script>alert("{{ messages }}")</script>
-    {% endif %}
+<script>alert("{{ messages }}")</script>
+{% endif %}
 <script src="{% static 'capacity_app/table_extensions/vendor/jquery/jquery2.1.min.js' %}"></script>
 
 <script>
@@ -242,14 +242,7 @@ tbody {
     });
 });
 </script>
-<script>
-    $(document).ready (function(){
-  if($(this).val()=="0"){
-    $('#gravit').attr('readOnly','true');
-  }
-});
-</script>
-</script>
+
 </body>
 {% endblock content %}
 </head>

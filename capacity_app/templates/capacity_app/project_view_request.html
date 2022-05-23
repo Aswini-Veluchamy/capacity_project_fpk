@@ -40,7 +40,10 @@ input[type="text"] {
     font-size:14px;
     height: 40px;
 }
-
+ul {
+    padding-right:2rem;
+    padding-left: 2rem;
+}
 .container {
     width: 100%;
     position: absolute;
@@ -49,7 +52,7 @@ input[type="text"] {
 
 .progressbar li {
     float: left;
-    width: 25%;
+    width: 20%;
     position: relative;
     text-align: center;
     list-style: none;
@@ -230,7 +233,13 @@ tbody {
                                 <li>Procurement Approval</li>
                                 {% endif %}
 
-                                {% if data.0.procurement_approval == True and data.0.financial_approval == True %}
+                                {% if data.0.floor_manager_approval == True %}
+                                <li class="active">Floor Manager Approval</li>
+                                {% else %}
+                                <li>Floor Manager Approval</li>
+                                {% endif %}
+
+                                {% if data.0.procurement_approval == True and data.0.financial_approval == True  and data.0.floor_manager_approval == True %}
                                 <li class="active">Request Completed</li>
                                 {% else %}
                                 <li>Request Completed</li>
