@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+{% extends "capacity_app/base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    {% block content %}
+    <title>Project Create Request</title>
+    <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
+    <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
+    <style>
+form {
+    font-size:14px;
+}
+.form-select {
+    font-size:14px;
+    height: 40px;
+}
+input[type="number"] {
+    font-size:14px;
+    height: 40px;
+}
+input[type="text"] {
+    font-size:14px;
+    height: 40px;
+}
+</style>
+<body>
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'dashboard' %}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i>
+                <span>Project Planner</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav1" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'project_create_request' %}" class="active">
+                        <i class="bi bi-circle"></i><span>Create Project Request</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'project_view_request' %}">
+                        <i class="bi bi-circle"></i><span>View Project Plan</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+        {% if query_data %}
+        <li class="nav-heading">Capacity - Alpha4</li>
+
+        <li class="nav-item">
+
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Request - Alpha4</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                {% if user_group != "admin" %}
+                <li>
+                    <a href="{% url 'create_request' %}">
+                        <i class="bi bi-circle"></i><span>Create Request</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'view_request' %}">
+                        <i class="bi bi-circle"></i><span>View Request</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'completed_ticket_data' %}">
+                        <i class="bi bi-circle"></i><span>Completed Request</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+        {% endif %}
+    </ul>
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Project Create Request</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item">Project Planner</li>
+                <li class="breadcrumb-item">Project Create Request</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Project Create Request - Alpha4</h5>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3 col-md-6">
+                                <label for="dc" class="form-label">Select DC <sup><strong>*</strong></sup></label>
+                                <select id="dc" class="form-select" name="dc" required>
+                                    <option value="" selected="selected" disabled="disabled">Select Region</option>
+                                    <option value="Ash">Ash</option>
+                                    <option value="Fpk">Fpk</option>
+                                </select>
+
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="project" class="form-label">Select Project <sup><strong>*</strong></sup></label>
+                                <select id="project" class="form-select" name="project" required>
+                                    <option value="" selected="selected" disabled="disabled">Select Project</option>
+                                    {% for project in projects %}
+                                    <option value="{{project}}">{{project}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label for="user_id" class="form-label">User ID <sup><strong>*</strong></sup></label>
+                                <input type="text" class="form-control" id="user_id" name="user_id" value="{{request.user.username}}" readonly>
+                            </div>
+
+                            <div class="mb-3 col-md-6">
+                                <label for="vol_type" class="form-label">Volume Type <sup><strong>*</strong></sup></label>
+                                <select id="vol_type" class="form-select" name="vol_type" required>
+                                    <option value="" selected="selected" disabled="disabled">Select Volume Type</option>
+                                    <option value="option1">Std Stable1</option>
+                                    <option value="option2">Std Stable2</option>
+                                    <option value="option3">Std Arbor</option>
+                                    <option value="option4">Stable1</option>
+                                    <option value="option5">Stable2</option>
+                                    <option value="option6">Arbor</option>
+                                    <option value="option7">Gravit</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3 col-md-6 vol_type" id="option1">
+                                <label for="std_stable1" class="form-label">Std Stable1 (TB)</label>
+                                <input type="number" class="form-control" id="std_stable1" name="std_stable1" min="0" max="500" value="0" required>
+                            </div>
+
+                            <div class="mb-3 col-md-6 vol_type" id="option2">
+                                <label for="std_stable2" class="form-label">Std Stable2 (TB)</label>
+                                <input type="number" class="form-control" id="std_stable2" name="std_stable2" min="0" max="500" value="0" required>
+                            </div>
+                            <div class="mb-3 col-md-6 vol_type" id="option3">
+                                <label for="std_arbor" class="form-label">Std Arbor (TB)</label>
+                                <input type="number" class="form-control" id="std_arbor" name="std_arbor" min="0" max="500" value="0" required>
+                            </div>
+
+                            <div class="mb-3 col-md-6 vol_type" id="option4">
+                                <label for="stable1" class="form-label">Stable1 (TB)</label>
+                                <input type="number" class="form-control" id="stable1" name="stable1" min="0" max="500" value="0" required>
+                            </div>
+                            <div class="mb-3 col-md-6 vol_type" id="option5">
+                                <label for="stable2" class="form-label">Stable2 (TB)</label>
+                                <input type="number" class="form-control" id="stable2" name="stable2" min="0" max="500" value="0" required>
+                            </div>
+
+                            <div class="mb-3 col-md-6 vol_type" id="option6">
+                                <label for="arbor" class="form-label">Arbor (TB)</label>
+                                <input type="number" class="form-control" id="arbor" name="arbor" min="0" max="500" value="0" required>
+                            </div>
+                            <div class="mb-3 col-md-6 vol_type" id="option7">
+                                <label for="gravit" class="form-label">Gravit (TB)</label>
+                                <input type="number" class="form-control" id="gravit" name="gravit" min="0" max="500" value="0" required>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="remarks" class="form-label">Remarks <sup><strong>*</strong></sup></label>
+                                <textarea id="remarks" maxlength="256" rows="4" cols="50" class="form-control" name="remarks" required></textarea>
+                            </div>
+                            <div class="input_fields_wrap">
+                                <button class="add_field_button btn btn-info" style="float:right;">Add Milestone</button><br>
+                                <label class="form-label">Milestone <sup><strong>*</strong></sup></label>
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <input type="text" class="form-control" id="mile" name="mytext[]" autocomplete="off" required>
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <input type="date" class="form-control" placeholder="start date" id="startdate" autocomplete="off" name="mytext2[]" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <p>{{error}}</p>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <a href="{% url 'view_request' %} " class="btn btn-primary" role="button">Cancel</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main><!-- End #main -->
+<script src="{% static 'capacity_app/table_extensions/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+
+<script>
+    jQuery(function ($) {
+    var $inputs = $('input[name=gravit],input[name=arbor],input[name=std_arbor],input[name=stable1],input[name=stable2],input[name=std_stable1],input[name=std_stable2]');
+    $inputs.on('input', function () {
+        // Set the required property of the other input to false if this input is not empty.
+        $inputs.not(this).prop('required', !$(this).val().length);
+    });
+});
+</script>
+<script>
+    $(document).ready(function(){
+
+  //hides dropdown content
+  $(".vol_type").hide();
+
+  //unhides first option content
+  $("#option1").hide();
+
+  //listen to dropdown for change
+  $("#vol_type").change(function(){
+    //rehide content on change
+
+    //unhides current item
+    $('#'+$(this).val()).show();
+  });
+
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    var max_fields      = 20; //maximum input boxes allowed
+    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+
+    var x = 1; //initlal text box count
+    $(add_button).on("click",function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+            x++; //text box increment
+            $(wrapper).append('<div class="row"><a href="#" class="remove_field">Remove</a><br><div class="mb-3 col-md-6"><input type="text" class="form-control" autocomplete="off" name="mytext[]" required/></div><div class="mb-3 col-md-6"><input type="date" class="form-control" autocomplete="off" placeholder="start date" name="mytext2[]" required /></div></div>'); //add input box
+        }
+    });
+
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        e.preventDefault(); $(this).parent('div').remove(); x--;
+    })
+});
+</script>
+
+<!--<script>
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = '0' + dd
+    }
+    if (mm < 10) {
+      mm = '0' + mm
+    }
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("startdate").setAttribute("min", today);
+    document.getElementById("enddate").setAttribute("max", today);
+</script>-->
+</body>
+{% endblock content %}
+</head>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+{% extends "capacity_app/base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    {% block content %}
+    <title>Dashboard</title>
+    <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
+    <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
+<body>
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+        {% if "admin" not in user_group %}
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i>
+                <span>Project Planner</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+
+            <ul id="components-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'project_view_request' %}">
+                        <i class="bi bi-circle"></i><span>View Project Plan</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+        {% endif %}
+
+        {% if query_data == "admin" or query_data %}
+        <li class="nav-heading">Capacity - Alpha4</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Request - Alpha4</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                {% if "admin" not in user_group %}
+                <li>
+                    <a href="{% url 'create_request' %}">
+                        <i class="bi bi-circle"></i><span>Create Request</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'view_request' %}">
+                        <i class="bi bi-circle"></i><span>View Request</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'completed_ticket_data' %}">
+                        <i class="bi bi-circle"></i><span>Completed Request</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+
+    </ul>
+    {% endif %}
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Sales Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card info-card sales-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Sales</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-cart"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>145</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card info-card sales-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Revenue</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-currency-dollar"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>$3,264</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Revenue Card -->
+
+            <!-- Customers Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card info-card customers-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Customers</h5>
+                        <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <div class="ps-3">
+                                <h6>1244</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Customers Card -->
+
+            <!-- Reports -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Reports</h5>
+                        <!-- Line Chart -->
+                        <div id="reportsChart"></div>
+                        <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                      new ApexCharts(document.querySelector("#reportsChart"), {
+                        series: [{
+                          name: 'Sales',
+                          data: [31, 40, 28, 51, 42, 82, 56],
+                        }, {
+                          name: 'Revenue',
+                          data: [11, 32, 45, 32, 34, 52, 41]
+                        }, {
+                          name: 'Customers',
+                          data: [15, 11, 32, 18, 9, 24, 11]
+                        }],
+                        chart: {
+                          height: 350,
+                          type: 'area',
+                          toolbar: {
+                            show: false
+                          },
+                        },
+                        markers: {
+                          size: 4
+                        },
+                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                        fill: {
+                          type: "gradient",
+                          gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.3,
+                            opacityTo: 0.4,
+                            stops: [0, 90, 100]
+                          }
+                        },
+                        dataLabels: {
+                          enabled: false
+                        },
+                        stroke: {
+                          curve: 'smooth',
+                          width: 2
+                        },
+                        xaxis: {
+                          type: 'datetime',
+                          categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                        },
+                        tooltip: {
+                          x: {
+                            format: 'dd/MM/yy HH:mm'
+                          },
+                        }
+                      }).render();
+                    });
+                  </script>
+                        <!-- End Line Chart -->
+                    </div>
+                </div>
+            </div><!-- End Reports -->
+        </div>
+    </section>
+</main>
+</body>
+{% endblock content %}
+</head>
+</html>

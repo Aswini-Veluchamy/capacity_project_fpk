@@ -1,0 +1,57 @@
+# Create your views here.
+
+user2 = ''
+user_1 = ''
+user_name = ''
+
+# Create your views here.
+
+user2 = ''
+user_1 = ''
+user_name = ''
+
+def user_login(request):
+    global user2
+    global user_1
+    global user_name
+
+    context = {}
+    if request.method == "POST":
+        user_name = request.POST['username']
+        password = request.POST['password']
+        user1 = authenticate(request,username=user_name, password=password)
+        # print(">>>>",user1)
+        print(">>>>username", user1, type(user_1))
+        print("name", user_name, type(user_name))
+        if (user_name == str(user1)) and (password == "tcscloud@123"):
+            print("hit")
+            return HttpResponseRedirect('forgot_password')
+
+        if user1:
+            auth_login(request, user1)
+            uid = request.user.id
+
+            username = User.objects.get(id=uid)
+            user_1 = username
+            gname = user1.groups.all()
+
+            for g in gname:
+                user2 = g.name
+            print("user2", user2, type(user2))
+            if user2 == "NOGROUP":
+
+                return HttpResponseRedirect('user_creation')
+            else:
+                return HttpResponseRedirect('home')
+
+        else:
+            context['error'] = "Please provide valid credentials!!!"
+            return render(request, 'demo_app/index.html', context)
+
+    else:
+        return render(request, 'demo_app/index.html', context)
+
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('user_login'))
