@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import CapacityData, HistoryData, ProjectPlannerData, MilestoneData, ProjectPlannerHistoryData, FinanceProcurementApprovalData
+from .models import CapacityData, HistoryData, ProjectPlannerData, MilestoneData
+from .models import ProjectPlannerHistoryData, FinanceProcurementApprovalData
 from datetime import datetime
 import time
 from django.db.models import Sum
@@ -261,12 +262,12 @@ def update_project_planner_request(request, pk):
 
         else:
             messages="Please provide greater values!!!!!"
-            return render(request, 'capacity_app/update_request.html', {"data": data, "user_group": user_group,
+            return render(request, 'capacity_app/project_update_request.html', {"data": data, "user_group": user_group,
                                                                     "email": email, "mile_stone": mile_stone_data,
                                                                     "messages":messages})
     else:
         data = ProjectPlannerData.objects.get(request_id=pk)
-        return render(request, 'capacity_app/update_request.html', {"data": data, "user_group": user_group,
+        return render(request, 'capacity_app/project_update_request.html', {"data": data, "user_group": user_group,
                                                                     "email": email, "mile_stone": mile_stone_data})
 
 
@@ -561,3 +562,11 @@ def admin_completed_request(request):
     email = request.session["user_group"][3]
     data = HistoryData.objects.all()
     return render(request, 'capacity_app/admin_completed_request.html', {"email": email, "data": data})
+
+@login_required
+def procurement_edit(request,pk):
+    email = request.session["user_group"][3]
+    data = ProjectPlannerData.objects.get(request_id=str(pk))
+    mile_stone_data = MilestoneData.objects.all()
+    return render(request, 'capacity_app/procurement_edit.html', {"email": email, "data": data,
+                                                                  "mile_stone": mile_stone_data })

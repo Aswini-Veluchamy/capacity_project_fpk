@@ -140,6 +140,7 @@ td {
                                     {% endfor %}
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm" title="Complete Request"><a style="text-decoration:none;color:#fff;" href="{% url 'completed_procurement_approval' pk=i.request_id %}"><i class="fas fa-check"></i>&nbsp;Approve</a></button>
+                                        <button type="button" class="btn btn-primary btn-sm" title="Partially Approve Request"><a style="text-decoration:none;color:#fff;" href="{% url 'procurement_edit' pk=i.request_id %}"><i class="fas fa-check"></i>&nbsp;Partially Approve</a></button>
                                     </td>
                                     {% endfor %}
                                 </tr>

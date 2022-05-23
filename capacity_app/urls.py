@@ -21,4 +21,5 @@ urlpatterns = [
     path('procurement_completed_request/', views.procurement_completed_request, name='procurement_completed_request'),
     path('admin_view_request/', views.admin_view_request, name='admin_view_request'),
     path('admin_completed_request/', views.admin_completed_request, name='admin_completed_request'),
+    path('procurement_edit/<str:pk>', views.procurement_edit, name='procurement_edit'),
 ]

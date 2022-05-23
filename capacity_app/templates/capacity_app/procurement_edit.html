@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+{% extends "capacity_app/base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    {% block content %}
+    <title>Project View Request</title>
+    <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
+    <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
+    <style>
+form {
+    font-size:14px;
+}
+.form-select {
+    font-size:14px;
+    height: 40px;
+}
+input[type="number"] {
+    font-size:14px;
+    height: 40px;
+}
+input[type="text"] {
+    font-size:14px;
+    height: 40px;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+thead {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+}
+tbody {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+}
+.card-view {
+    height:30px;
+}
+</style>
+<body>
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'dashboard' %}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+        {% if "admin" not in user_group %}
+        <li class="nav-item">
+            <a class="nav-link" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i>
+                <span>Project Planner</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav1" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <!--<li>
+                    <a href="{% url 'project_create_request' %}">
+                        <i class="bi bi-circle"></i><span>Create Project Request</span>
+                    </a>
+                </li>-->
+
+                <li>
+                    <a href="{% url 'project_view_request' %}">
+                        <i class="bi bi-circle"></i><span>View Project Plan</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li><!-- End Components Nav -->
+        {% endif %}
+
+        {% if query_data %}
+        <li class="nav-heading">Capacity - Alpha4</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Request - Alpha4</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                {% if user_group != "admin" %}
+                <li>
+                    <a href="{% url 'create_request' %}">
+                        <i class="bi bi-circle"></i><span>Create Request</span>
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'view_request' %}">
+                        <i class="bi bi-circle"></i><span>View Request</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'completed_ticket_data' %}">
+                        <i class="bi bi-circle"></i><span>Completed Request</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+        {% endif %}
+    </ul>
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+<div class="pagetitle">
+    <h1>Update Request</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item">Request - Alpha4</li>
+            <li class="breadcrumb-item">Update Request</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="dc" class="form-label">DC</label>
+                                <input type="text" id="dc" class="form-control" name="dc" value="{{data.data_center}}" readonly />
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="project" class="form-label">Project</label>
+                                <input type="text" id="project" class="form-control" name="project" value="{{data.project_name}}" readonly />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="user_id" class="form-label">User ID</label>
+                                <input type="text" class="form-control" id="user_id" name="user_id" value="{{data.user_name}}" readonly>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="std_stable1" class="form-label">Std Stable1 (TB)</label>
+                                <input type="number" class="form-control" id="std_stable1" name="std_stable1" min="0" max="500" value="{{data.std_stable1}}"  required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="std_stable2" class="form-label">Std Stable2 (TB)</label>
+                                <input type="number" class="form-control" id="std_stable2" name="std_stable2" min="0" max="500" value="{{data.std_stable2}}" required>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="std_arbor" class="form-label">Std Arbor (TB)</label>
+                                <input type="number" class="form-control" id="std_arbor" name="std_arbor" min="0" max="500" value="{{data.std_arbor}}" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="stable1" class="form-label">Stable1 (TB)</label>
+                                <input type="number" class="form-control" id="stable1" name="stable1" min="0" max="500" value="{{data.stable1}}" required>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="stable2" class="form-label">Stable2 (TB)</label>
+                                <input type="number" class="form-control" id="stable2" name="stable2" min="0" max="500" value="{{data.stable2}}" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="arbor" class="form-label">Arbor (TB)</label>
+                                <input type="number" class="form-control" id="arbor" name="arbor" min="0" max="500" value="{{data.arbor}}" required>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="gravit" class="form-label">Gravit (TB)</label>
+                                <input type="number" class="form-control" id="gravit" name="gravit" min="0" max="500" value="{{data.gravit|floatformat}}" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="remarks" class="form-label">Remarks</label>
+                                <textarea id="remarks" maxlength="256" rows="4" cols="50" class="form-control" name="remarks">{{data.remarks}}</textarea>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Milestones</label>
+                                <table class="table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Milestone</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for i in mile_stone %}
+                                    <tr>
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.date}}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <p>{{error}}</p>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="#" class="btn btn-primary" role="button">Cancel</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+{% if messages %}
+         <script>alert("{{ messages }}")</script>
+    {% endif %}
+<script src="{% static 'capacity_app/table_extensions/vendor/jquery/jquery2.1.min.js' %}"></script>
+
+<script>
+    jQuery(function ($) {
+    var $inputs = $('input[name=gravit],input[name=arbor],input[name=std_arbor],input[name=stable1],input[name=stable2],input[name=std_stable1],input[name=std_stable2]');
+    $inputs.on('input', function () {
+        // Set the required property of the other input to false if this input is not empty.
+        $inputs.not(this).prop('required', !$(this).val().length);
+    });
+});
+</script>
+<script>
+    $(document).ready (function(){
+  if($(this).val()=="0"){
+    $('#gravit').attr('readOnly','true');
+  }
+});
+</script>
+</script>
+</body>
+{% endblock content %}
+</head>
+</html>
