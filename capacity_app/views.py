@@ -92,6 +92,7 @@ def user_logout(request):
         pass
     return HttpResponseRedirect(reverse('login'))
 
+
 @csrf_exempt
 @login_required
 def dashboard(request):
@@ -644,7 +645,6 @@ def procurement_edit(request,pk):
         return render(request, 'capacity_app/procurement_edit.html', {"email": email, "data": data,
                                                                       "user_group": user_group,
                                                                       "mile_stone": mile_stone_data})
-
 
 
 @login_required
