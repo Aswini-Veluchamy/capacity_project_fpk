@@ -100,7 +100,7 @@ def dashboard(request):
     project = request.session["user_group"][1]
     email = request.session["user_group"][3]
     if "admin" not in user_group:
-        query_set = ProjectPlannerData.objects.filter(project_name=project[0], financial_approval=True, procurement_approval=True)
+        query_set = ProjectPlannerData.objects.filter(project_name=project[0], financial_approval=True, procurement_approval=True, floor_manager_approval=True)
         return render(request, 'capacity_app/dashboard.html', {"user_group": user_group, "email": email, "query_data": query_set})
     else:
         return render(request, 'capacity_app/dashboard.html',
@@ -645,6 +645,7 @@ def procurement_edit(request,pk):
         return render(request, 'capacity_app/procurement_edit.html', {"email": email, "data": data,
                                                                       "user_group": user_group,
                                                                       "mile_stone": mile_stone_data})
+
 
 
 @login_required
