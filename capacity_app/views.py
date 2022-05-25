@@ -92,7 +92,6 @@ def user_logout(request):
         pass
     return HttpResponseRedirect(reverse('login'))
 
-
 @csrf_exempt
 @login_required
 def dashboard(request):
