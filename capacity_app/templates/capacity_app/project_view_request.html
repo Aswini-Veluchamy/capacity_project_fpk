@@ -366,7 +366,7 @@ tbody {
                                 </div>
                             </div>
                             <br>
-                            {% if data.0.procurement_approval == True and data.0.financial_approval == True and "User_Group_Project_Planner" in user_group %}
+                            {% if data.0.procurement_approval == True and data.0.floor_manager_approval == True and "User_Group_Project_Planner" in user_group %}
                             <div class="text-center">
                                 <button type="button" class="btn btn-primary" title="Edit Request">
                                     <a style="text-decoration:none;color:#fff;" href="{% url 'update_project_planner_request' pk=data.0.request_id %}"><i class="fas fa-edit"></i>&nbsp;Edit</a></button>

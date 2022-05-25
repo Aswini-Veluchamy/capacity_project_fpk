@@ -22,4 +22,10 @@ urlpatterns = [
     path('admin_view_request/', views.admin_view_request, name='admin_view_request'),
     path('admin_completed_request/', views.admin_completed_request, name='admin_completed_request'),
     path('procurement_edit/<str:pk>', views.procurement_edit, name='procurement_edit'),
+    path('floor_manager_approval/', views.floor_manager_approval, name='floor_manager_approval'),
+    path('completed_floor_manager_approval/<str:pk>', views.completed_floor_manager_approval,
+         name='completed_floor_manager_approval'),
+    path('floor_manager_completed_request/', views.floor_manager_completed_request,
+         name='floor_manager_completed_request'),
+
 ]

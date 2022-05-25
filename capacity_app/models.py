@@ -17,6 +17,7 @@ class ProjectPlannerData(models.Model):
     remarks = models.CharField(max_length=200)
     financial_approval = models.BooleanField()
     procurement_approval = models.BooleanField()
+    floor_manager_approval = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     request_id = models.CharField(max_length=128)
 
@@ -43,6 +44,7 @@ class ProjectPlannerHistoryData(models.Model):
     remarks = models.CharField(max_length=200)
     financial_approval = models.BooleanField()
     procurement_approval = models.BooleanField()
+    floor_manager_approval = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     request_id = models.CharField(max_length=128)
 

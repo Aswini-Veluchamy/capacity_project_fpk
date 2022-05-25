@@ -48,10 +48,12 @@ def user_login(request):
             group = request.user.groups.all()
 
             projects = [i.name for i in group if i.name not in ["User_Group_Project_Planner", 'User_Group_Finance',
-                                                                'User_Group_procurement', "admin", "member"]]
+                                                                'User_Group_procurement', "admin", "member",
+                                                                "User_Group_Floor_Manager"]]
 
             user_groups = [i.name for i in group if i.name in ["User_Group_Project_Planner", 'User_Group_Finance',
-                                                               'User_Group_procurement', "admin", "member"]]
+                                                               'User_Group_procurement', "admin", "member",
+                                                               "User_Group_Floor_Manager"]]
 
             request.session["user_group"] = [user_groups, projects, username, email]
 
@@ -63,6 +65,9 @@ def user_login(request):
 
             elif 'User_Group_procurement' in user_groups:
                 return HttpResponseRedirect(reverse("procurement_approval"))
+
+            elif 'User_Group_Floor_Manager' in user_groups:
+                return HttpResponseRedirect(reverse("floor_manager_approval"))
 
             elif 'admin' in user_groups:
                 return HttpResponseRedirect(reverse("admin_view_request"))
@@ -122,6 +127,7 @@ def storage_space_verification(project, column_name, value):
     else:
         print(sum_value, project_capacity_value, column_name, "-------------------------------------")
         return True
+
 
 @csrf_exempt
 @login_required
@@ -241,6 +247,7 @@ def update_project_planner_request(request, pk):
                 remarks=data.remarks,
                 financial_approval=data.financial_approval,
                 procurement_approval=data.procurement_approval,
+                floor_manager_approval=data.floor_manager_approval,
                 created_at=data.created_at
             )
             history_data_create.save()  # saving the record in the table
@@ -257,7 +264,8 @@ def update_project_planner_request(request, pk):
                                                             remarks=remarks,
                                                             created_at=updated_at,
                                                             financial_approval=False,
-                                                            procurement_approval=False)
+                                                            procurement_approval=False,
+                                                            floor_manager_approval=False)
             return HttpResponseRedirect(reverse("project_view_request"))
 
         else:
@@ -403,6 +411,7 @@ def project_create_request(request):
             remarks=remarks,
             financial_approval=False,
             procurement_approval=False,
+            floor_manager_approval=False,
             request_id=request_id
         )
         query_data.save()
@@ -445,7 +454,7 @@ def project_view_request(request):
     if "admin" not in user_group:
         query_set = ProjectPlannerData.objects.filter(project_name=project[0])
         query_set1 = ProjectPlannerData.objects.filter(project_name=project[0], financial_approval=True,
-                                                       procurement_approval=True)
+                                                       procurement_approval=True, floor_manager_approval=True)
 
         mile_stone_data = MilestoneData.objects.filter(project_name=project[0])
         return render(request, 'capacity_app/project_view_request.html',
@@ -563,10 +572,127 @@ def admin_completed_request(request):
     data = HistoryData.objects.all()
     return render(request, 'capacity_app/admin_completed_request.html', {"email": email, "data": data})
 
+
 @login_required
 def procurement_edit(request,pk):
+    project = request.session["user_group"][1]
+    data = ProjectPlannerData.objects.get(request_id=pk)
+    user_group = request.session["user_group"][0]
     email = request.session["user_group"][3]
-    data = ProjectPlannerData.objects.get(request_id=str(pk))
+    mile_stone_data = MilestoneData.objects.filter(project_name=project[0])
+
+    if request.method == "POST":
+        std_stable1 = request.POST.get('std_stable1', None)
+        std_stable2 = request.POST.get('std_stable2', None)
+        std_arbor = request.POST.get('std_arbor', None)
+        stable1 = request.POST.get('stable1', None)
+        stable2 = request.POST.get('stable2', None)
+        arbor = request.POST.get('arbor', None)
+        gravit = request.POST.get('gravit', None)
+        remarks = request.POST.get('remarks', None)
+
+        data = ProjectPlannerData.objects.get(request_id=pk)
+
+        if (int(std_stable1) <= data.std_stable1) and (int(std_stable2) <= data.std_stable2) and (
+                int(std_arbor) <= data.std_arbor) and (int(stable1) <= data.stable1) and (
+                int(stable2) <= data.stable2) and (int(arbor) <= data.arbor) and (int(gravit) <= data.gravit):
+            ''' create updated ticket data in history table'''
+            history_data_create = ProjectPlannerHistoryData.objects.create(
+                data_center=data.data_center,
+                project_name=data.project_name,
+                user_name=data.user_name,
+                milestone_name=data.milestone_name,
+                date=data.date,
+                std_stable1=data.std_stable1,
+                std_stable2=data.std_stable2,
+                std_arbor=data.std_arbor,
+                stable1=data.stable1,
+                stable2=data.stable2,
+                arbor=data.arbor,
+                gravit=data.gravit,
+                remarks=data.remarks,
+                financial_approval=data.financial_approval,
+                procurement_approval=data.procurement_approval,
+                floor_manager_approval=data.floor_manager_approval,
+                created_at=data.created_at
+            )
+            history_data_create.save()  # saving the record in the table
+
+            updated_at = datetime.now()
+            ''' updating the new vales in table '''
+            ProjectPlannerData.objects.filter(request_id=pk).update(std_stable1=std_stable1,
+                                                                    std_stable2=std_stable2,
+                                                                    std_arbor=std_arbor,
+                                                                    stable1=stable1,
+                                                                    stable2=stable2,
+                                                                    arbor=arbor,
+                                                                    gravit=gravit,
+                                                                    remarks=remarks,
+                                                                    created_at=updated_at,
+                                                                    financial_approval=True,
+                                                                    procurement_approval=True,
+                                                                    floor_manager_approval=False)
+            return HttpResponseRedirect(reverse("project_view_request"))
+        else:
+            messages = "Please provide greater values!!!!!"
+            return render(request, 'capacity_app/procurement_edit.html', {"data": data, "user_group": user_group,
+                                                                          "email": email,
+                                                                          "mile_stone": mile_stone_data,
+                                                                          "messages": messages})
+
+    else:
+
+        return render(request, 'capacity_app/procurement_edit.html', {"email": email, "data": data,
+                                                                      "user_group": user_group,
+                                                                      "mile_stone": mile_stone_data})
+
+
+@login_required
+def floor_manager_approval(request):
+    email = request.session["user_group"][3]
+    query_set = ProjectPlannerData.objects.filter(financial_approval=True, procurement_approval=True,
+                                                  floor_manager_approval=False)
     mile_stone_data = MilestoneData.objects.all()
-    return render(request, 'capacity_app/procurement_edit.html', {"email": email, "data": data,
-                                                                  "mile_stone": mile_stone_data })
+    return render(request, 'capacity_app/floor_manager_approval.html', {"email": email, "data": query_set,
+                                                                        "mile_stone": mile_stone_data})
+
+
+@login_required
+def completed_floor_manager_approval(request, pk):
+    data = ProjectPlannerData.objects.get(request_id=str(pk))
+
+    """ storing approved record in table"""
+
+    create_record = FinanceProcurementApprovalData.objects.create(
+        data_center=data.data_center,
+        project_name=data.project_name,
+        group="floor_manager",
+        milestone_name=data.milestone_name,
+        date=data.date,
+        std_stable1=data.std_stable1,
+        std_stable2=data.std_stable2,
+        std_arbor=data.std_arbor,
+        stable1=data.stable1,
+        stable2=data.stable2,
+        arbor=data.arbor,
+        gravit=data.gravit,
+        remarks=data.remarks,
+        user_name=data.user_name,
+        request_id=data.request_id
+    )
+    create_record.save()
+
+    """ updating the new vales in table """
+    ProjectPlannerData.objects.filter(request_id=str(pk)).update(floor_manager_approval=True)
+
+    return HttpResponseRedirect(reverse("floor_manager_completed_request"))
+
+
+@login_required
+def floor_manager_completed_request(request):
+    email = request.session["user_group"][3]
+    query_set = FinanceProcurementApprovalData.objects.filter(group="floor_manager")
+    mile_stone_data = MilestoneData.objects.all()
+    return render(request, 'capacity_app/floor_manager_completed_request.html', {"email": email,"data": query_set,
+                                                                               "mile_stone": mile_stone_data})
+
