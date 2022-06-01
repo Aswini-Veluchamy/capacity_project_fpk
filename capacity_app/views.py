@@ -632,9 +632,9 @@ def procurement_edit(request,pk):
                                                                     financial_approval=True,
                                                                     procurement_approval=True,
                                                                     floor_manager_approval=False)
-            return HttpResponseRedirect(reverse("project_view_request"))
+            return HttpResponseRedirect(reverse("procurement_completed_request"))
         else:
-            messages = "Please provide greater values!!!!!"
+            messages = "Please provide lesser values!!!!!"
             return render(request, 'capacity_app/procurement_edit.html', {"data": data, "user_group": user_group,
                                                                           "email": email,
                                                                           "mile_stone": mile_stone_data,

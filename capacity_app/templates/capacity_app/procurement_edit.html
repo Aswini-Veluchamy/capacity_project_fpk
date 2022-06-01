@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     {% block content %}
-    <title>Project Edit Request</title>
+    <title>Procurement Edit Request</title>
     <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
     <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
     <style>
@@ -57,76 +57,30 @@ tbody {
 
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{% url 'dashboard' %}">
+            <a class="nav-link collapsed" href="{% url 'procurement_approval' %}">
                 <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
+                <span>Procurement Approval</span>
             </a>
         </li><!-- End Dashboard Nav -->
-        {% if "admin" not in user_group %}
+
         <li class="nav-item">
-            <a class="nav-link" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
+            <a class="nav-link collapsed" href="{% url 'procurement_completed_request' %}">
                 <i class="bi bi-journal-text"></i>
-                <span>Project Planner</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
+                <span>Completed Request</span>
             </a>
-            <ul id="components-nav1" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-                <!--<li>
-                    <a href="{% url 'project_create_request' %}">
-                        <i class="bi bi-circle"></i><span>Create Project Request</span>
-                    </a>
-                </li>-->
-
-                <li>
-                    <a href="{% url 'project_view_request' %}">
-                        <i class="bi bi-circle"></i><span>View Project Plan</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li><!-- End Components Nav -->
-        {% endif %}
-
-        {% if query_data %}
-        <li class="nav-heading">Capacity - Alpha4</li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i>
-                <span>Request - Alpha4</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                {% if user_group != "admin" %}
-                <li>
-                    <a href="{% url 'create_request' %}">
-                        <i class="bi bi-circle"></i><span>Create Request</span>
-                    </a>
-                </li>
-                {% endif %}
-                <li>
-                    <a href="{% url 'view_request' %}">
-                        <i class="bi bi-circle"></i><span>View Request</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'completed_ticket_data' %}">
-                        <i class="bi bi-circle"></i><span>Completed Request</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End Components Nav -->
-        {% endif %}
+        </li><!-- End Dashboard Nav -->
     </ul>
 
 </aside><!-- End Sidebar-->
 
 <main id="main" class="main">
     <div class="pagetitle">
-        <h1>Update Request</h1>
+        <h1>Procurement Edit Request</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item">Request - Alpha4</li>
-                <li class="breadcrumb-item">Update Request</li>
+                <li class="breadcrumb-item">Procurement Edit Request</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -218,7 +172,7 @@ tbody {
                             <div class="text-center">
                                 <p>{{error}}</p>
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="#" class="btn btn-primary" role="button">Cancel</a>
+                                <a href="{% url 'procurement_approval' %}" class="btn btn-primary" role="button">Cancel</a>
                             </div>
                         </form>
 

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     {% block content %}
-    <title>Finance - Completed</title>
+    <title>Floor Manager - Completed</title>
     <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
     <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
     <!-- Custom styles for this template-->
@@ -46,7 +46,7 @@ td {
         <li class="nav-item">
             <a class="nav-link collapsed" href="{% url 'floor_manager_approval' %}">
                 <i class="bi bi-grid"></i>
-                <span>Approval Request</span>
+                <span>Floor Manager Approval</span>
             </a>
         </li><!-- End Dashboard Nav -->
 
@@ -68,7 +68,7 @@ td {
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Completed Request - Finance</h5>
+                        <h5 class="card-title">Completed Request - Floor Manager</h5>
                         <font size="2" face = "futura,helvetica">
                             <table class="table table-bordered table-striped" id="example"
                                    data-toggle="table"
@@ -178,7 +178,7 @@ td {
 <script>
     $('#example').bootstrapTable({
     exportOptions: {
-        fileName: 'Finance Completed'
+        fileName: 'Floor Manager Completed'
     }
 });
 </script>
