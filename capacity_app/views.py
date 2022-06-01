@@ -618,6 +618,27 @@ def procurement_edit(request,pk):
             )
             history_data_create.save()  # saving the record in the table
 
+            """ storing approved record in table"""
+
+            create_record = FinanceProcurementApprovalData.objects.create(
+                data_center=data.data_center,
+                project_name=data.project_name,
+                group="procurement",
+                milestone_name=data.milestone_name,
+                date=data.date,
+                std_stable1=data.std_stable1,
+                std_stable2=data.std_stable2,
+                std_arbor=data.std_arbor,
+                stable1=data.stable1,
+                stable2=data.stable2,
+                arbor=data.arbor,
+                gravit=data.gravit,
+                remarks=data.remarks,
+                user_name=data.user_name,
+                request_id=data.request_id
+            )
+            create_record.save()
+
             updated_at = datetime.now()
             ''' updating the new vales in table '''
             ProjectPlannerData.objects.filter(request_id=pk).update(std_stable1=std_stable1,
