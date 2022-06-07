@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+{% extends "capacity_app/base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    {% block content %}
+    <title>Project Completed Request</title>
+    <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
+    <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.min.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'capacity_app/table_extensions/assets/bootstrap-table.min.css' %}" rel="stylesheet">
+    <link href="{% static 'capacity_app/table_extensions/assets/bootstrap-table.css' %}" rel="stylesheet">
+    <link href="{% static 'capacity_app/table_extensions/assets/extensions/filter-control/bootstrap-table-filter-control.css' %}" rel="stylesheet">
+    <link href="{% static 'capacity_app/table_extensions/assets/extensions/filter-control/bootstrap-table-filter-control.min.css' %}" rel="stylesheet">
+    <style>
+.bootstrap-table .fixed-table-toolbar .columns-right {
+    float: right;
+}
+.bootstrap-table .fixed-table-pagination > .pagination {
+    float:right;
+}
+td {
+    white-space: nowrap;
+}
+.btn-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open>.dropdown-toggle.btn-info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+.action {
+    text-align: center;
+}
+</style>
+<body>
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'dashboard' %}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link" data-bs-target="#components-nav1" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i>
+                <span>Project Planner</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav1" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <!--<li>
+                    <a href="{% url 'project_create_request' %}">
+                        <i class="bi bi-circle"></i><span>Create Project Request</span>
+                    </a>
+                </li>-->
+
+                <li>
+                    <a href="{% url 'project_view_request' %}">
+                        <i class="bi bi-circle"></i><span>View Project Plan</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'project_approve_request' %}">
+                        <i class="bi bi-circle"></i><span>Project Approve Request</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'project_completed_request' %}" class="active">
+                        <i class="bi bi-circle"></i><span>Project Completed Request</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li><!-- End Components Nav -->
+
+    </ul>
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Project Completed Request</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">Request</li>
+                <li class="breadcrumb-item">Project Completed Request - Admin</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Project Completed Request - Alpha4</h5>
+                        <font size="2" face = "futura,helvetica">
+                            <table class="table table-bordered table-striped" id="example"
+                                   data-toggle="table"
+                                   data-pagination="true"
+                                   data-search="true"
+                                   data-show-columns="true"
+                                   data-show-toggle="true"
+                                   data-show-columns-toggle-all="false"
+                                   data-show-export="true"
+                                   data-export-data-type="all"
+                                   data-response-handler="responseHandler"
+                                   data-show-fullscreen="true"
+                                   data-show-pagination-switch="true"
+                                   data-height="500"
+                                   data-sort-name="updated_at"
+                                   data-sort-order="desc"
+                                   data-pagination-pre-text="Previous"
+                                   data-pagination-next-text="Next"
+                                   data-pagination-h-align="left"
+                                   data-pagination-detail-h-align="right"
+                                   data-page-size="20"
+                                   data-page-list="[20, 30, 40, 50, All]"
+                                   data-buttons-class="primary">
+                                <thead>
+                                <tr>
+                                    <th nowrap class="request_id" data-field="request_id" data-sortable="true" >ID</th>
+                                    <th nowrap class="dc" data-field="dc" data-sortable="true" >DC</th>
+                                    <th nowrap class="project_name" data-field="project_name" data-sortable="true" >Project Name</th>
+                                    <th nowrap class="user_id" data-field="user_id" data-sortable="true" >User ID</th>
+                                    <th nowrap class="std_stable1" data-field="std_stable1" data-sortable="true" >Std Stable1 (TB)</th>
+                                    <th nowrap class="std_stable2" data-field="std_stable2" data-sortable="true" >Std Stable2 (TB)</th>
+                                    <th nowrap class="std_arbor" data-field="std_arbor" data-sortable="true" >Std Arbor (TB)</th>
+                                    <th nowrap class="stable1" data-field="stable1" data-sortable="true" >Stable1 (TB)</th>
+                                    <th nowrap class="stable2" data-field="stable2" data-sortable="true" >Stable2 (TB)</th>
+                                    <th nowrap class="arbor" data-field="arbor" data-sortable="true" >Arbor (TB)</th>
+                                    <th nowrap class="gravit" data-field="gravit" data-sortable="true" > Gravit (TB)</th>
+                                    <th nowrap class="updated_at" data-field="updated_at" data-sortable="true" >Updated Date</th>
+                                    <th nowrap class="move_group_name" data-field="move_group_name" data-sortable="true" >Milestone</th>
+                                    <th nowrap class="remarks" data-field="remarks" data-sortable="true" >Remarks</th>
+                                    <th nowrap class="status" data-field="status" data-sortable="true" data-formatter="priceFormatter" >Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in data %}
+                                <tr>
+                                    <td nowrap class="request_id">{{i.request_id}}</td>
+                                    <td nowrap class="dc">{{i.data_center}}</td>
+                                    <td nowrap class="project_name">{{i.project_name}}</td>
+                                    <td nowrap class="user_id">{{i.user_id}}</td>
+                                    <td nowrap class="std_stable1">{{i.std_stable1|floatformat}}</td>
+                                    <td nowrap class="std_stable2">{{i.std_stable2|floatformat}}</td>
+                                    <td nowrap class="std_arbor">{{i.std_arbor|floatformat}}</td>
+                                    <td nowrap class="stable1">{{i.stable1|floatformat}}</td>
+                                    <td nowrap class="stable2">{{i.stable1|floatformat}}</td>
+                                    <td nowrap class="arbor">{{i.arbor|floatformat}}</td>
+                                    <td nowrap class="gravit">{{i.gravit|floatformat}}</td>
+                                    <td nowrap class="updated_at">{{i.updated_time|date:'Y-m-d H:i:s'}}</td>
+                                    <td nowrap class="move_group_name">{{i.move_group_name}}</td>
+                                    <td nowrap class="remarks">{{i.remarks}}</td>
+                                    <td nowrap class="status">{{i.tkt_status}}</td>
+                                    {% endfor %}
+                                </tr>
+                                </tbody>
+                            </table>
+                        </font>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="{% static 'capacity_app/table_extensions/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/vendor/bootstrap/js/popper.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/vendor/bootstrap/js/popper.min.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/assets/bootstrap-table.min.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/assets/bootstrap-table.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/assets/tableExport.min.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/assets/extensions/toolbar/bootstrap-table-toolbar.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/assets/extensions/toolbar/bootstrap-table-toolbar.min.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/assets/extensions/export/bootstrap-table-export.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/assets/extensions/export/bootstrap-table-export.min.js' %}"></script>
+<script src="{% static 'capacity_app/table_extensions/assets/extensions/filter-control/bootstrap-table-filter-control.min.js' %}"></script>
+
+<script src="{% static 'capacity_app/table_extensions/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src=" {% static 'capacity_app/table_extensions/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+<script>
+  function priceFormatter(value, row) {
+  var icon = row.status === 'ACTIVE' ? 'btn-info btn-sm' :
+  row.status === 'Pending' | row.status === 'PENDING' | row.status === 'pending' ? 'btn-warning btn-sm' :
+  row.status === 'Work IN Progress' | row.status === 'work in progress' | row.status === 'WORK IN PROGRESS' ? 'btn-info btn-sm' :
+  row.status === 'Completed' | row.status === 'COMPLETED' | row.status === 'completed' ?'btn-success btn-sm' :
+  'btn-primary btn-sm'
+  return '<button class="font btn ' + icon + '">' + value + '</button>'
+  }
+</script>
+
+<script>
+    $('#example').bootstrapTable({
+    exportOptions: {
+        fileName: 'Project Completed Request'
+    }
+});
+</script>
+{% endblock content %}
+</body>
+</head>
+</html>

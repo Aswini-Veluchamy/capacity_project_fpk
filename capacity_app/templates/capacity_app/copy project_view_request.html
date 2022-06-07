@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
     {% block content %}
     <title>Project View Plan</title>
     <link href="{% static 'capacity_app/table_extensions/fontawesome-free-5.15.1/css/all.css' %}" rel="stylesheet">
@@ -25,27 +26,24 @@ td {
     white-space: nowrap;
 }
 form {
-    font-weight:600;
-    font-size:13px;
+    font-size:14px;
 }
 .form-select {
-    font-size:13px;
-    height: 35px;
+    font-size:14px;
+    height: 40px;
 }
 input[type="number"] {
-    font-size:13px;
-    height: 35px;
+    font-size:14px;
+    height: 40px;
 }
 input[type="text"] {
-    font-size:13px;
-    height: 35px;
+    font-size:14px;
+    height: 40px;
 }
-
 ul {
     padding-right:2rem;
     padding-left: 2rem;
 }
-
 .container {
     width: 100%;
     position: absolute;
@@ -58,7 +56,6 @@ ul {
     position: relative;
     text-align: center;
     list-style: none;
-    font-size:14px;
 }
 
 .progressbar {
@@ -110,8 +107,6 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
-  font-size:13px;
-  font-weight:100;
 }
 
 td, th {
@@ -281,58 +276,64 @@ tbody {
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Request Id - </label>
                                     <td nowrap class="id">
-                                        <a href="{% url 'history_request' %}" style="text-decoration:underline;">{{data.0.request_id}}</a>
+                                         <a href="{% url 'history_request' %}" style="text-decoration:underline;">{{data.0.request_id}}</a>
                                     </td>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="mb-3 col-md-3">
+                                <div class="mb-3 col-md-6">
                                     <label for="dc" class="form-label">Region</label>
                                     <input type="text" id="dc" class="form-control" name="dc" value="{{data.0.data_center}}" readonly />
                                 </div>
-                                <div class="mb-3 col-md-3">
+                                <div class="mb-3 col-md-6">
                                     <label for="project" class="form-label">Project</label>
                                     <input type="text" id="project" class="form-control" name="project" value="{{data.0.project_name}}" readonly />
                                 </div>
-                                <div class="mb-3 col-md-3">
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
                                     <label for="user_id" class="form-label">User ID</label>
                                     <input type="text" class="form-control" id="user_id" name="user_id" value="{{data.0.user_name}}" readonly>
                                 </div>
-                                <div class="mb-3 col-md-3">
+                                <div class="mb-3 col-md-6">
                                     <label for="std_stable1" class="form-label">Std Stable1 (TB)</label>
                                     <input type="number" class="form-control" id="std_stable1" name="std_stable1" min="0" max="500" value="{{data.0.std_stable1}}"  readonly>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="mb-3 col-md-3">
+                                <div class="mb-3 col-md-6">
                                     <label for="std_stable2" class="form-label">Std Stable2 (TB)</label>
                                     <input type="number" class="form-control" id="std_stable2" name="std_stable2" min="0" max="500" value="{{data.0.std_stable2}}" readonly>
                                 </div>
-                                <div class="mb-3 col-md-3">
+                                <div class="mb-3 col-md-6">
                                     <label for="std_arbor" class="form-label">Std Arbor (TB)</label>
                                     <input type="number" class="form-control" id="std_arbor" name="std_arbor" min="0" max="500" value="{{data.0.std_arbor|floatformat}}" readonly>
                                 </div>
-                                <div class="mb-3 col-md-3">
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-md-6">
                                     <label for="stable1" class="form-label">Stable1 (TB)</label>
                                     <input type="number" class="form-control" id="stable1" name="stable1" min="0" max="500" value="{{data.0.stable1}}" readonly>
                                 </div>
-                                <div class="mb-3 col-md-3">
+                                <div class="mb-3 col-md-6">
                                     <label for="stable2" class="form-label">Stable2 (TB)</label>
                                     <input type="number" class="form-control" id="stable2" name="stable2" min="0" max="500" value="{{data.0.stable2}}" readonly>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="mb-3 col-md-3">
+                                <div class="mb-3 col-md-6">
                                     <label for="arbor" class="form-label">Arbor (TB)</label>
                                     <input type="number" class="form-control" id="arbor" name="arbor" min="0" max="500" value="{{data.0.arbor|floatformat}}" readonly>
                                 </div>
-                                <div class="mb-3 col-md-3">
+                                <div class="mb-3 col-md-6">
                                     <label for="gravit" class="form-label">Gravit (TB)</label>
                                     <input type="number" class="form-control" id="gravit" name="gravit" min="0" max="500" value="{{data.0.gravit|floatformat}}" readonly>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="mb-3 col-md-6">
                                     <label for="remarks" class="form-label">Remarks</label>
-                                    <textarea id="remarks" style="height:10px;font-size:13px;" maxlength="256" rows="4" cols="50" class="form-control" name="remarks" readonly>{{data.0.remarks}}</textarea>
+                                    <textarea id="remarks" maxlength="256" rows="4" cols="50" class="form-control" name="remarks" readonly>{{data.0.remarks}}</textarea>
                                 </div>
                                 <!--<label class="form-label">Milestone</label>
                                 <div class="row">

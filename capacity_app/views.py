@@ -717,3 +717,16 @@ def floor_manager_completed_request(request):
     return render(request, 'capacity_app/floor_manager_completed_request.html', {"email": email,"data": query_set,
                                                                                "mile_stone": mile_stone_data})
 
+@login_required
+def project_approve_request(request):
+    email = request.session["user_group"][3]
+    mile_stone_data = MilestoneData.objects.all()
+    return render(request, 'capacity_app/project_approve_request-alpha4.html', {"email": email,
+                                                                               "mile_stone": mile_stone_data})
+
+@login_required
+def project_completed_request(request):
+    email = request.session["user_group"][3]
+    mile_stone_data = MilestoneData.objects.all()
+    return render(request, 'capacity_app/project_completed_request-alpha4.html', {"email": email,
+                                                                               "mile_stone": mile_stone_data})
