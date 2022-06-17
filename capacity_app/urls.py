@@ -32,5 +32,5 @@ urlpatterns = [
          name='floor_manager_completed_request'),
     path('project_approve_request/', views.project_approve_request,
          name='project_approve_request'),
-    path('project_completed_request', views.project_completed_request, name='project_completed_request'),
+    path('project_completed_request/', views.project_completed_request, name='project_completed_request'),
 ]
