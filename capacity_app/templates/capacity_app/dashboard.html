@@ -31,8 +31,26 @@
 
             <ul id="components-nav1" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
+                    <a href="{% url 'project_create_request' %}">
+                        <i class="bi bi-circle"></i><span>Create Project Request</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="{% url 'project_view_request' %}">
                         <i class="bi bi-circle"></i><span>View Project Plan</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'project_approve_request' %}">
+                        <i class="bi bi-circle"></i><span>Project Approve Request</span>
+                    </a>
+                </li>
+
+                 <li>
+                    <a href="{% url 'project_completed_request' %}">
+                        <i class="bi bi-circle"></i><span>Project Completed Request</span>
                     </a>
                 </li>
             </ul>

@@ -55,6 +55,19 @@ input[type="date"] {
                         <i class="bi bi-circle"></i><span>Create Project Request</span>
                     </a>
                 </li>
+
+                <li>
+                    <a href="{% url 'project_approve_request' %}">
+                        <i class="bi bi-circle"></i><span>Project Approve Request</span>
+                    </a>
+                </li>
+
+                 <li>
+                    <a href="{% url 'project_completed_request' %}">
+                        <i class="bi bi-circle"></i><span>Project Completed Request</span>
+                    </a>
+                </li>
+
             </ul>
         </li><!-- End Components Nav -->
         {% if query_data %}
