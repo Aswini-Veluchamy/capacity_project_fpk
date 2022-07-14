@@ -84,7 +84,7 @@ tbody {
                         <i class="bi bi-circle"></i><span>View Project Plan</span>
                     </a>
                 </li>
-
+                {% if "User_Group_Project_Planner" in user_group %}
                 <li>
                     <a href="{% url 'project_approve_request' %}">
                         <i class="bi bi-circle"></i><span>Project Approve Request</span>
@@ -96,7 +96,7 @@ tbody {
                         <i class="bi bi-circle"></i><span>Project Completed Request</span>
                     </a>
                 </li>
-
+                {% endif %}
             </ul>
         </li><!-- End Components Nav -->
         {% endif %}

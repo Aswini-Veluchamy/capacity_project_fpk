@@ -137,9 +137,9 @@ def create_request(request):
     projects = request.session["user_group"][1]
     email = request.session["user_group"][3]
     mile_stone_data = MilestoneData.objects.filter(project_name=projects[0])
-
     ''' getting data from user form'''
     if request.method == "POST":
+
         data_center = request.POST['dc']
         project = request.POST['project']
         user_id = request.POST['user_id']
@@ -170,6 +170,11 @@ def create_request(request):
         now = datetime.now()
         date_time = str(now.strftime("%Y-%m-%d %H:%M:%S"))
 
+        if "User_Group_Project_Planner" in user_group:
+            project_planner_approval = True
+        else:
+            project_planner_approval = False
+        print(project_planner_approval, "==============================")
         ''' storing data into database '''
         request_data_create = CapacityData.objects.create(
             request_id=request_id,
@@ -187,6 +192,7 @@ def create_request(request):
             move_group_name=move_group_name,
             remarks=remarks,
             tkt_status=tkt_status,
+            project_planner_approval = project_planner_approval
         )
         request_data_create.save()
         return HttpResponseRedirect(reverse("view_request"))
@@ -203,7 +209,7 @@ def view_request(request):
     user_group = request.session["user_group"][0]
     user_name = request.session["user_group"][2]
     email = request.session["user_group"][3]
-
+    print(user_name)
     data = CapacityData.objects.filter(user_id=str(user_name))
 
     return render(request, 'capacity_app/view_request.html', {'data': data,
@@ -474,7 +480,6 @@ def financial_approval(request):
 @login_required
 def completed_financial_approval(request, pk):
 
-    print(pk)
     """ storing approved record in table"""
     data = ProjectPlannerData.objects.get(request_id=pk)
 
@@ -562,7 +567,7 @@ def procurement_completed_request(request):
 @login_required
 def admin_view_request(request):
     email = request.session["user_group"][3]
-    data = CapacityData.objects.all()
+    data = CapacityData.objects.filter(project_planner_approval=True)
     return render(request, 'capacity_app/admin_view_request.html', {"email": email, "data": data})
 
 
@@ -717,16 +722,35 @@ def floor_manager_completed_request(request):
     return render(request, 'capacity_app/floor_manager_completed_request.html', {"email": email,"data": query_set,
                                                                                "mile_stone": mile_stone_data})
 
+
 @login_required
 def project_approve_request(request):
+    user_group = request.session["user_group"][0]
     email = request.session["user_group"][3]
-    mile_stone_data = MilestoneData.objects.all()
-    return render(request, 'capacity_app/project_approve_request-alpha4.html', {"email": email,
-                                                                               "mile_stone": mile_stone_data})
+    project = request.session["user_group"][1]
+
+    if "admin" not in user_group:
+        query_set = CapacityData.objects.filter(project_planner_approval=False)
+        mile_stone_data = MilestoneData.objects.filter(project_name=project[0])
+        return render(request, 'capacity_app/project_approve_request-alpha4.html',
+                      {"user_group": user_group, "email": email, "data": query_set,
+                       "mile_stone": mile_stone_data})
+
 
 @login_required
 def project_completed_request(request):
     email = request.session["user_group"][3]
+    data = CapacityData.objects.filter(project_planner_approval=True)
     mile_stone_data = MilestoneData.objects.all()
-    return render(request, 'capacity_app/project_completed_request-alpha4.html', {"email": email,
-                                                                               "mile_stone": mile_stone_data})
+    return render(request, 'capacity_app/project_completed_request-alpha4.html', {"email": email,"data":data,
+                                                                          "mile_stone": mile_stone_data})
+
+
+@login_required
+def project_approval_request(request, pk):
+    data = CapacityData.objects.get(request_id=str(pk))
+
+    """ updating the new vales in table """
+    CapacityData.objects.filter(request_id=str(pk)).update(project_planner_approval=True)
+
+    return HttpResponseRedirect(reverse("project_completed_request"))

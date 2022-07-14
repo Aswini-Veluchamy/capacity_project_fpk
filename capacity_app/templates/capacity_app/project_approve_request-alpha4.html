@@ -82,6 +82,33 @@ td {
                 </li>
             </ul>
         </li><!-- End Components Nav -->
+        <li class="nav-heading">Capacity - Alpha4</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Request - Alpha4</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{% url 'create_request' %}">
+                        <i class="bi bi-circle"></i><span>Create Request</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'view_request' %}">
+                        <i class="bi bi-circle"></i><span>View Request</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'completed_ticket_data' %}">
+                        <i class="bi bi-circle"></i><span>Completed Request</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Components Nav -->
+    </ul>
+
 
 
     </ul>
@@ -146,7 +173,7 @@ td {
                                     <th nowrap class="move_group_name" data-field="move_group_name" data-sortable="true" >Milestone</th>
                                     <th nowrap class="remarks" data-field="remarks" data-sortable="true" >Remarks</th>
                                     <th nowrap class="status" data-field="status" data-sortable="true" data-formatter="priceFormatter" >Status</th>
-                                    <th nowrap class="approve" data-sortable="true">Approve</th>
+                                    <th nowrap class="action" data-sortable="true">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -160,7 +187,7 @@ td {
                                     <td nowrap class="std_stable2">{{i.std_stable2|floatformat}}</td>
                                     <td nowrap class="std_arbor">{{i.std_arbor|floatformat}}</td>
                                     <td nowrap class="stable1">{{i.stable1|floatformat}}</td>
-                                    <td nowrap class="stable2">{{i.stable1|floatformat}}</td>
+                                    <td nowrap class="stable2">{{i.stable2|floatformat}}</td>
                                     <td nowrap class="arbor">{{i.arbor|floatformat}}</td>
                                     <td nowrap class="gravit">{{i.gravit|floatformat}}</td>
                                     <td nowrap class="updated_at">{{i.updated_time|date:'Y-m-d H:i:s'}}</td>
@@ -169,7 +196,7 @@ td {
                                     <td nowrap class="status">{{i.tkt_status}}</td>
                                     <td nowrap class="approve">
                                         <button type="button" class="btn btn-success btn-sm" title="Approve Request">
-                                            <a style="text-decoration:none;color:#fff;" href="{% url 'project_completed_request' pk=i.request_id %}">
+                                            <a style="text-decoration:none;color:#fff;" href="{% url 'project_approval_request' pk=i.request_id %}">
                                                 <i class="fas fa-tasks"></i>&nbsp; Approve
                                             </a>
                                         </button>
